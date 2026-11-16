@@ -2,6 +2,8 @@ import { Coffee, Sprout, Wheat } from "lucide-react";
 import { story } from "../data/site";
 import { Container } from "../components/Container";
 import { SectionTitle } from "../components/SectionTitle";
+import { ResponsiveImage } from "../components/ResponsiveImage";
+import { IMAGE_SIZES } from "../lib/images";
 
 const icons = { sprout: Sprout, wheat: Wheat, coffee: Coffee };
 
@@ -16,13 +18,9 @@ export function Story() {
                 aria-hidden="true"
                 className="absolute -bottom-4 -left-4 hidden h-full w-full rounded-4xl border-2 border-terracota-deco/50 sm:block"
               />
-              <img
-                src={story.image.src}
-                alt={story.image.alt}
-                width={story.image.width}
-                height={story.image.height}
-                loading="lazy"
-                decoding="async"
+              <ResponsiveImage
+                image={story.image}
+                sizes={IMAGE_SIZES.story}
                 className="relative aspect-4/5 w-full rounded-4xl object-cover shadow-suave sm:aspect-4/3 lg:aspect-4/5"
               />
             </div>

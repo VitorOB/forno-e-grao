@@ -3,7 +3,9 @@ import { contact, hero } from "../data/site";
 import { Button } from "../components/Button";
 import { Container } from "../components/Container";
 import { WhatsappIcon } from "../components/BrandIcons";
+import { ResponsiveImage } from "../components/ResponsiveImage";
 import { whatsappLink } from "../lib/format";
+import { IMAGE_SIZES } from "../lib/images";
 
 export function Hero() {
   return (
@@ -35,13 +37,10 @@ export function Hero() {
             aria-hidden="true"
             className="absolute -top-4 -right-4 hidden h-full w-full rounded-4xl border-2 border-terracota-deco/60 sm:block"
           />
-          <img
-            src={hero.image.src}
-            alt={hero.image.alt}
-            width={hero.image.width}
-            height={hero.image.height}
-            fetchPriority="high"
-            decoding="async"
+          <ResponsiveImage
+            image={hero.image}
+            sizes={IMAGE_SIZES.hero}
+            priority
             className="relative aspect-4/3 w-full rounded-4xl object-cover shadow-suave"
           />
         </div>

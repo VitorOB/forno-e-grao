@@ -22,7 +22,7 @@ export const brand = {
   name: "Forno & Grão",
   tagline: "Padaria Artesanal",
   /** URL final do site, sem barra no fim (ex.: https://fornoegrao.com.br). Usada no og:image e no JSON-LD. */
-  siteUrl: "",
+  siteUrl: "https://forno-e-grao.vercel.app/",
   seo: {
     title: "Forno & Grão — Padaria Artesanal | Fermentação natural e café especial",
     description:
@@ -41,12 +41,15 @@ export const nav = [
 ];
 
 /* ------------------------------------------------------------------ */
-/* Imagens (arquivos em public/images/)                                */
+/* Imagens                                                             */
+/* `name` é o nome-base: o site usa public/images/<name>-800.webp e     */
+/* <name>-1600.webp (gerados por scripts/optimize-images.mjs).          */
+/* width/height são os da versão de 1600px e definem a proporção.       */
 /* ------------------------------------------------------------------ */
-export type SiteImage = { src: string; alt: string; width: number; height: number };
+export type SiteImage = { name: string; alt: string; width: number; height: number };
 
-const img = (file: string, alt: string, width = 1600, height = 1068): SiteImage => ({
-  src: `/images/${file}`,
+const img = (name: string, alt: string, width = 1600, height = 1068): SiteImage => ({
+  name,
   alt,
   width,
   height,
@@ -62,7 +65,7 @@ export const hero = {
   primaryCta: { label: "Ver produtos", href: "#produtos" },
   secondaryCtaLabel: "Encomendar pelo WhatsApp",
   image: img(
-    "hero.webp",
+    "hero",
     "Pães de fermentação natural com casca dourada e cortes rústicos, cercados de pãezinhos redondos enfarinhados.",
   ),
 };
@@ -83,30 +86,30 @@ export const products: Product[] = [
     name: "Pão de fermentação natural",
     description: "Fermentação lenta, miolo úmido e levemente ácido, casca grossa e bem caramelizada.",
     image: img(
-      "pao-fermentacao.webp",
+      "pao-fermentacao",
       "Pão de fermentação natural redondo, enfarinhado e com cortes em forma de folha, sobre uma tábua de madeira rústica.",
     ),
   },
   {
     name: "Croissant de manteiga",
     description: "Massa folhada com manteiga, camadas que se desfazem por fora e miolo macio.",
-    image: img("croissant.webp", "Croissant dourado com camadas folhadas aparentes sobre uma tábua de madeira clara."),
+    image: img("croissant", "Croissant dourado com camadas folhadas aparentes sobre uma tábua de madeira clara."),
   },
   {
     name: "Pão de queijo",
     description: "Queijo curado na massa, casquinha crocante e interior elástico.",
-    image: img("pao-de-queijo.webp", "Pães de queijo dourados empilhados em uma cesta de vime, com um pegador de inox."),
+    image: img("pao-de-queijo", "Pães de queijo dourados empilhados em uma cesta de vime, com um pegador de inox."),
   },
   {
     name: "Cappuccino",
     description: "Espresso encorpado, leite vaporizado e espuma cremosa por cima.",
-    image: img("cappuccino.webp", "Xícara branca de cappuccino com desenho de coração na espuma do leite, sobre um pires."),
+    image: img("cappuccino", "Xícara branca de cappuccino com desenho de coração na espuma do leite, sobre um pires."),
   },
   {
     name: "Bolo do dia",
     description: "Massa fofa e úmida, com receitas que mudam conforme a estação.",
     image: img(
-      "bolo.webp",
+      "bolo",
       "Mão cortando uma fatia de bolo amarelo de forma, com casca dourada, sobre papel manteiga.",
       1600,
       1254,
@@ -116,7 +119,7 @@ export const products: Product[] = [
     name: "Sanduíche na ciabatta",
     description: "Ciabatta de casca fina e miolo aerado, com recheios frescos montados na hora.",
     image: img(
-      "sanduiche.webp",
+      "sanduiche",
       "Sanduíche de ciabatta enfarinhada recheado com salame, pimentão vermelho assado, lascas de queijo e rúcula, em prato branco.",
     ),
   },
@@ -133,7 +136,7 @@ export const story = {
     "Cada massa respeita o próprio tempo. O fermento natural é cuidado na casa, a manteiga é manteiga e o café é escolhido para acompanhar o que sai do forno. Tudo isso está no balcão e também nas encomendas para as datas importantes de quem mora por perto.",
   ],
   image: img(
-    "historia.webp",
+    "historia",
     "Mãos sovando uma massa sobre uma bancada coberta de farinha, com um rolo de madeira ao fundo.",
   ),
   features: [
@@ -185,7 +188,7 @@ export const orders = {
     label: "Encomendar pelo WhatsApp",
   },
   image: img(
-    "encomendas.webp",
+    "encomendas",
     "Pães compridos embalados em sacos de papel pardo sobre um balcão de madeira, ao lado de um fatiador antigo vermelho.",
   ),
 };

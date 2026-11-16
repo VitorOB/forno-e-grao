@@ -60,39 +60,44 @@ Também funciona por linha de comando: `npx vercel` na raiz do projeto.
 
 ### Fotos
 
-Ficam em [`public/images/`](public/images/). Para trocar uma foto, substitua o arquivo **com o mesmo nome**. Se a proporção mudar, atualize `width`/`height` e o `alt` correspondente em `site.ts`. A regra é largura máxima de 1600 px, em WebP.
+Ficam em [`public/images/`](public/images/). Cada foto tem duas versões em WebP: `<nome>-800.webp` e `<nome>-1600.webp`. O site usa `srcset`/`sizes`, e o navegador escolhe a menor que fique nítida na tela. As larguras de cada layout estão em [`src/lib/images.ts`](src/lib/images.ts).
 
-- `hero.jpg` (1200×630) é a imagem de compartilhamento (`og:image`).
-- Os créditos das fotos atuais estão em [`CREDITS.md`](CREDITS.md).
-
-Para converter uma foto nova com ffmpeg:
+Para trocar uma foto, gere as duas versões a partir do original. É preciso ter o [ffmpeg](https://ffmpeg.org/) instalado:
 
 ```bash
-ffmpeg -i foto.jpg -vf "scale='min(1600,iw)':-2" -c:v libwebp -quality 78 public/images/nome.webp
+node scripts/optimize-images.mjs caminho/da/foto-original.jpg croissant
 ```
+
+O script grava `croissant-800.webp` e `croissant-1600.webp` e mostra as dimensões. Em `site.ts`, a foto é referenciada só pelo nome-base (`img("croissant", "texto alternativo")`). Se a proporção mudar, atualize `width`/`height` com as dimensões da versão de 1600px. Atualize também o `alt`.
+
+- A foto do hero é pré-carregada com `fetchpriority="high"` e não usa lazy loading. As outras usam `loading="lazy"`.
+- `hero.jpg` (1200×630) é só a imagem de compartilhamento (`og:image`). Ela fica em JPG porque nem todo app que gera prévia de link aceita WebP, e a página não a carrega.
+- Os créditos das fotos atuais estão em [`CREDITS.md`](CREDITS.md).
 
 ### Cores e fontes
 
 - As cores ficam em [`src/index.css`](src/index.css), no bloco `@theme`. `terracota` (`#9E4F35`) é a única cor de destaque permitida em texto e botões. `terracota-deco` (`#B65F42`) serve só para decoração.
 - Terracota sobre o bege (`#E8D9C6`) dá 4,2:1 e **não passa** em AA para texto normal. Por isso, as seções bege não usam texto terracota.
-- Fontes: Fraunces (títulos) e DM Sans (texto), hospedadas localmente pelo `@fontsource` e importadas em [`src/main.tsx`](src/main.tsx).
+- Fontes: Fraunces (títulos) e DM Sans (texto), hospedadas localmente pelo `@fontsource` e importadas em [`src/main.tsx`](src/main.tsx). A fonte dos títulos (Fraunces 600) é pré-carregada. Como o nome do arquivo muda a cada build, o `<link rel="preload">` é injetado pelo plugin `preloadDisplayFont` em [`vite.config.ts`](vite.config.ts). Se trocar a fonte dos títulos, ajuste a expressão regular desse plugin. Se o arquivo não for encontrado, o build falha de propósito.
 
-### SEO
+### SEO e preloads
 
-`title`, `meta description`, Open Graph e o JSON-LD `Bakery` são gerados no build a partir de `site.ts`, pelo plugin em [`vite.config.ts`](vite.config.ts). Não edite essas tags direto no `index.html`.
+`title`, `meta description`, Open Graph, o JSON-LD `Bakery` e o preload da foto do hero são gerados no build a partir de `site.ts`, pelo plugin em [`vite.config.ts`](vite.config.ts). Não edite essas tags direto no `index.html`.
 
 ## Estrutura
 
 ```
 src/
-  components/   Button, Container, SectionTitle, ProductCard, BrandIcons
+  components/   Button, Container, SectionTitle, ProductCard, ResponsiveImage, BrandIcons
   sections/     Header, Hero, Products, Story, Orders, Location, Footer
-  lib/          format.ts (formato de hora e link do WhatsApp)
+  lib/          format.ts (hora e link do WhatsApp), images.ts (srcset e sizes)
   data/site.ts  todos os dados editáveis
   App.tsx
   main.tsx
   index.css
+scripts/
+  optimize-images.mjs   gera as versões 800/1600 de uma foto
 public/
-  images/       fotos locais (WebP + hero.jpg para o og:image)
+  images/       fotos locais (<nome>-800.webp, <nome>-1600.webp e hero.jpg para o og:image)
   favicon.svg
 ```

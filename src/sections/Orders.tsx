@@ -4,7 +4,9 @@ import { Button } from "../components/Button";
 import { Container } from "../components/Container";
 import { SectionTitle } from "../components/SectionTitle";
 import { WhatsappIcon } from "../components/BrandIcons";
+import { ResponsiveImage } from "../components/ResponsiveImage";
 import { whatsappLink } from "../lib/format";
+import { IMAGE_SIZES } from "../lib/images";
 
 const icons = { coffee: Coffee, cake: Cake, party: PartyPopper };
 
@@ -25,13 +27,9 @@ export function Orders() {
               intro={orders.intro}
               tone="dark"
             />
-            <img
-              src={orders.image.src}
-              alt={orders.image.alt}
-              width={orders.image.width}
-              height={orders.image.height}
-              loading="lazy"
-              decoding="async"
+            <ResponsiveImage
+              image={orders.image}
+              sizes={IMAGE_SIZES.orders}
               className="aspect-16/10 w-full rounded-4xl object-cover"
             />
           </div>

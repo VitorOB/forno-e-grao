@@ -1,7 +1,8 @@
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { brand, contact, location, openingHours } from "./src/data/site";
+import { brand, contact, hero, location, openingHours } from "./src/data/site";
+import { IMAGE_SIZES, imageSrcSet } from "./src/lib/images";
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -53,9 +54,31 @@ function seoFromSiteData(): Plugin {
         `<meta property="og:image:height" content="630" />`,
         `<meta name="twitter:card" content="summary_large_image" />`,
         `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>`,
+        // Foto do hero (LCP): mesmo srcset/sizes da <img>, para o navegador baixar só uma versão
+        `<link rel="preload" as="image" type="image/webp" imagesrcset="${imageSrcSet(hero.image.name)}" imagesizes="${IMAGE_SIZES.hero}" fetchpriority="high" />`,
       ].join("\n    ");
 
       return html.replace("<!--seo-->", tags);
+    },
+  };
+}
+
+/**
+ * Pré-carrega a fonte dos títulos (Fraunces 600, subconjunto latino).
+ * O arquivo recebe um hash no build, por isso o link é injetado depois que o bundle existe.
+ */
+function preloadDisplayFont(): Plugin {
+  return {
+    name: "preload-display-font",
+    apply: "build",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        const file = Object.keys(ctx.bundle ?? {}).find((f) => /fraunces-latin-600-normal-[\w-]+\.woff2$/.test(f));
+        if (!file) throw new Error("preload-display-font: woff2 da Fraunces 600 não encontrado no bundle");
+        const tag = `<link rel="preload" as="font" type="font/woff2" href="/${file}" crossorigin />`;
+        return html.replace("</title>", `</title>\n    ${tag}`);
+      },
     },
   };
 }
@@ -71,5 +94,5 @@ const dayNames: Record<string, string> = {
 };
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), seoFromSiteData()],
+  plugins: [react(), tailwindcss(), seoFromSiteData(), preloadDisplayFont()],
 });
