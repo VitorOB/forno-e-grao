@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --color-creme: #f7f3eb;
+  --color-bege: #e8d9c6;
+  --color-cacau: #30251f; /* texto principal */
+  --color-cacau-suave: #5c4b41; /* texto secundário: 7,5:1 no creme, 6,0:1 no bege */
+  --color-areia: #cfc3b5; /* texto secundário no fundo cacau: 8,6:1 */
+  --color-terracota: #9e4f35; /* botões, links e texto colorido */
+  --color-terracota-deco: #b65f42; /* só decoração, nunca texto */
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --shadow-suave: 0 1px 2px rgb(48 37 31 / 0.06), 0 8px 24px -12px rgb(48 37 31 / 0.18);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-creme);
+    color: var(--color-cacau);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  /* Foco sempre visível. Nunca remover. */
+  :focus-visible {
+    outline: 3px solid var(--color-terracota);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Em fundos escuros o terracota fica abaixo de 3:1; usa-se creme (13,5:1). */
+  .on-dark :focus-visible {
+    outline-color: var(--color-creme);
+  }
+
+  /* Âncoras não ficam escondidas atrás do cabeçalho fixo */
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+}
+
+/* Uma única entrada sutil por seção. Desligada com prefers-reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
