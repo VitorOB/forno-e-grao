@@ -10,8 +10,8 @@
 export const contact = {
   whatsappNumber: "", // formato 5531999999999 — preencher antes de publicar
   whatsappMessage: "Olá! Vi o site da Forno & Grão e gostaria de fazer uma encomenda.",
-  creatorName: "",
-  creatorWhatsapp: "", // formato 5531999999999 — WhatsApp de quem criou o site
+  creatorName: "Vitor Otávio",
+  creatorWhatsapp: "5531993628211", // formato 5531999999999 — WhatsApp de quem criou o site
   creatorMessage: "Olá! Vi o site demonstrativo da Forno & Grão e quero um site assim para o meu negócio.",
 };
 
