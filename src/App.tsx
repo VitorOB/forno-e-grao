@@ -6,6 +6,7 @@ import { Story } from "./sections/Story";
 import { Orders } from "./sections/Orders";
 import { Location } from "./sections/Location";
 import { Footer } from "./sections/Footer";
+import { useSite } from "./i18n/lang";
 
 /** Uma entrada sutil por seção (elementos com data-reveal). O CSS ignora isso com prefers-reduced-motion. */
 function useReveal() {
@@ -33,13 +34,14 @@ function useReveal() {
 
 export default function App() {
   useReveal();
+  const { t } = useSite();
   return (
     <>
       <a
         href="#conteudo"
         className="sr-only z-50 rounded-full bg-cacau px-5 py-3 font-medium text-creme focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >
-        Pular para o conteúdo
+        {t.skipLink}
       </a>
       <Header />
       <main id="conteudo" tabIndex={-1} className="outline-none">

@@ -1,13 +1,14 @@
 import { Coffee, Sprout, Wheat } from "lucide-react";
-import { story } from "../data/site";
 import { Container } from "../components/Container";
 import { SectionTitle } from "../components/SectionTitle";
 import { ResponsiveImage } from "../components/ResponsiveImage";
 import { IMAGE_SIZES } from "../lib/images";
+import { useSite } from "../i18n/lang";
 
 const icons = { sprout: Sprout, wheat: Wheat, coffee: Coffee };
 
 export function Story() {
+  const { story } = useSite().site;
   return (
     <section id="historia" aria-labelledby="historia-title" className="bg-bege py-16 sm:py-24">
       <Container>

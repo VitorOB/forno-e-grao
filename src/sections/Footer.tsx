@@ -1,8 +1,8 @@
 import type { MouseEvent } from "react";
-import { brand, contact, nav, openingHours, socials } from "../data/site";
 import { Container } from "../components/Container";
 import { InstagramIcon, WhatsappIcon } from "../components/BrandIcons";
-import { formatTime, whatsappLink } from "../lib/format";
+import { formatHours, whatsappLink } from "../lib/format";
+import { useSite } from "../i18n/lang";
 
 const socialIcons = { instagram: InstagramIcon, whatsapp: WhatsappIcon };
 
@@ -10,6 +10,8 @@ const socialIcons = { instagram: InstagramIcon, whatsapp: WhatsappIcon };
 const preventDemo = (e: MouseEvent) => e.preventDefault();
 
 export function Footer() {
+  const { lang, site, t } = useSite();
+  const { brand, contact, nav, openingHours, socials } = site;
   const year = new Date().getFullYear();
   const creatorLink = whatsappLink(contact.creatorWhatsapp, contact.creatorMessage);
 
@@ -20,7 +22,7 @@ export function Footer() {
           <p className="font-display text-2xl font-semibold">{brand.name}</p>
           <p className="mt-1 text-areia">{brand.tagline}</p>
 
-          <ul className="mt-6 flex flex-wrap gap-3" aria-label="Redes sociais">
+          <ul className="mt-6 flex flex-wrap gap-3" aria-label={t.socials}>
             {socials.map((s) => {
               const Icon = socialIcons[s.icon];
               const isDemo = !s.url;
@@ -40,7 +42,7 @@ export function Footer() {
                     <Icon />
                     <span>
                       {s.name}
-                      {isDemo && <span className="text-areia"> · demonstrativo</span>}
+                      {isDemo && <span className="text-areia"> · {t.demo}</span>}
                     </span>
                   </a>
                 </li>
@@ -49,8 +51,8 @@ export function Footer() {
           </ul>
         </div>
 
-        <nav aria-label="Rodapé">
-          <h2 className="font-display text-lg font-semibold">Navegue</h2>
+        <nav aria-label={t.footerNav}>
+          <h2 className="font-display text-lg font-semibold">{t.browse}</h2>
           <ul className="mt-3">
             {nav.map((item) => (
               <li key={item.href}>
@@ -63,13 +65,13 @@ export function Footer() {
         </nav>
 
         <div>
-          <h2 className="font-display text-lg font-semibold">Horários</h2>
+          <h2 className="font-display text-lg font-semibold">{t.hours}</h2>
           <dl className="mt-3 space-y-2 text-areia">
             {openingHours.map((h) => (
               <div key={h.label}>
                 <dt className="font-medium text-creme">{h.label}</dt>
                 <dd>
-                  {formatTime(h.opens)} às {formatTime(h.closes)}
+                  {formatHours(h.opens, h.closes, lang)}
                 </dd>
               </div>
             ))}
@@ -80,19 +82,25 @@ export function Footer() {
       <div className="border-t border-creme/15">
         <Container className="flex flex-col gap-3 py-6 text-sm text-areia md:flex-row md:items-center md:justify-between">
           <p>
-            © {year} {brand.name}. Marca e endereço fictícios.
+            © {year} {brand.name}. {t.fictional}
           </p>
           <p>
-            Site demonstrativo{contact.creatorName && <> criado por {contact.creatorName}</>} — quer um site assim para o
-            seu negócio?{" "}
+            {t.demoSite}
+            {contact.creatorName && (
+              <>
+                {" "}
+                {t.createdBy} {contact.creatorName}
+              </>
+            )}{" "}
+            {t.wantSite}{" "}
             <a
               href={creatorLink}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex min-h-11 items-center font-semibold text-creme underline underline-offset-4 hover:no-underline md:min-h-0"
             >
-              Fale comigo
-              <span className="sr-only"> pelo WhatsApp (abre em nova aba)</span>
+              {t.talkToMe}
+              <span className="sr-only"> {t.viaWhatsApp}</span>
             </a>
           </p>
         </Container>

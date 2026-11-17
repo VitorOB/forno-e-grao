@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { brand, nav } from "../data/site";
 import { Container } from "../components/Container";
+import { LanguageSwitch } from "../components/LanguageSwitch";
+import { useSite } from "../i18n/lang";
 
 export function Header() {
+  const { site, t } = useSite();
+  const { brand, nav } = site;
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -64,7 +67,7 @@ export function Header() {
           <span>{brand.name}</span>
         </a>
 
-        <nav aria-label="Principal" className="hidden lg:block">
+        <nav aria-label={t.mainNav} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {nav.map((item) => (
               <li key={item.href}>
@@ -77,11 +80,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitch />
           <a
             href="#encomendas"
             className="hidden min-h-11 items-center rounded-full bg-terracota px-5 font-medium text-white transition-colors hover:bg-cacau sm:inline-flex"
           >
-            Fazer encomenda
+            {t.orderCta}
           </a>
           <button
             ref={toggleRef}
@@ -92,7 +96,7 @@ export function Header() {
             onClick={() => (open ? close(false) : setOpen(true))}
           >
             {open ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
-            <span className="sr-only">{open ? "Fechar menu" : "Abrir menu"}</span>
+            <span className="sr-only">{open ? t.closeMenu : t.openMenu}</span>
           </button>
         </div>
       </Container>
@@ -103,7 +107,7 @@ export function Header() {
         hidden={!open}
         className="border-t border-cacau/10 bg-creme shadow-suave lg:hidden"
       >
-        <nav aria-label="Menu móvel">
+        <nav aria-label={t.mobileNav}>
           <Container>
             <ul className="flex flex-col py-3">
               {nav.map((item) => (
@@ -123,7 +127,7 @@ export function Header() {
                   onClick={() => close(false)}
                   className="flex min-h-12 items-center justify-center rounded-full bg-terracota px-5 font-medium text-white"
                 >
-                  Fazer encomenda
+                  {t.orderCta}
                 </a>
               </li>
             </ul>

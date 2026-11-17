@@ -43,8 +43,17 @@ function seoFromSiteData(): Plugin {
       const tags = [
         `<title>${escapeHtml(brand.seo.title)}</title>`,
         `<meta name="description" content="${escapeHtml(brand.seo.description)}" />`,
+        // Versões por idioma (o inglês é a mesma página com ?lang=en).
+        ...(base
+          ? [
+              `<link rel="alternate" hreflang="pt-BR" href="${escapeHtml(base)}/" />`,
+              `<link rel="alternate" hreflang="en" href="${escapeHtml(base)}/?lang=en" />`,
+              `<link rel="alternate" hreflang="x-default" href="${escapeHtml(base)}/" />`,
+            ]
+          : []),
         `<meta property="og:type" content="website" />`,
         `<meta property="og:locale" content="pt_BR" />`,
+        `<meta property="og:locale:alternate" content="en_US" />`,
         `<meta property="og:site_name" content="${escapeHtml(brand.name)}" />`,
         `<meta property="og:title" content="${escapeHtml(brand.seo.title)}" />`,
         `<meta property="og:description" content="${escapeHtml(brand.seo.description)}" />`,

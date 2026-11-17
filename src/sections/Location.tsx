@@ -1,10 +1,12 @@
 import { MapPin } from "lucide-react";
-import { location, openingHours } from "../data/site";
 import { Container } from "../components/Container";
 import { SectionTitle } from "../components/SectionTitle";
-import { formatTime } from "../lib/format";
+import { formatHours } from "../lib/format";
+import { useSite } from "../i18n/lang";
 
 export function Location() {
+  const { lang, site, t } = useSite();
+  const { location, openingHours } = site;
   const { address } = location;
   return (
     <section id="onde-estamos" aria-labelledby="onde-estamos-title" className="bg-bege py-16 sm:py-24">
@@ -20,21 +22,21 @@ export function Location() {
                 <br />
                 {address.district} · {address.city} – {address.state}
                 <br />
-                CEP {address.postalCode}
+                {t.postalCode} {address.postalCode}
                 {location.isDemo && (
                   <span className="mt-2 block w-fit rounded-full border border-cacau/40 px-3 py-0.5 text-sm font-medium">
-                    Endereço demonstrativo
+                    {t.demoAddress}
                   </span>
                 )}
               </span>
             </address>
 
             <table className="mt-10 w-full max-w-md border-collapse text-left">
-              <caption className="mb-3 text-left font-display text-2xl font-semibold">Horário de funcionamento</caption>
+              <caption className="mb-3 text-left font-display text-2xl font-semibold">{t.openingHours}</caption>
               <thead className="sr-only">
                 <tr>
-                  <th scope="col">Dia</th>
-                  <th scope="col">Horário</th>
+                  <th scope="col">{t.day}</th>
+                  <th scope="col">{t.time}</th>
                 </tr>
               </thead>
               <tbody>
@@ -44,7 +46,7 @@ export function Location() {
                       {h.label}
                     </th>
                     <td className="py-3 text-right tabular-nums">
-                      {formatTime(h.opens)} às {formatTime(h.closes)}
+                      {formatHours(h.opens, h.closes, lang)}
                     </td>
                   </tr>
                 ))}
@@ -70,7 +72,7 @@ export function Location() {
               <MapPin className="size-12 fill-terracota text-creme drop-shadow" strokeWidth={1.5} />
             </div>
             <p className="relative max-w-sm rounded-2xl bg-creme/95 p-4 text-cacau-suave shadow-suave">
-              <strong className="block font-semibold text-cacau">Mapa</strong>
+              <strong className="block font-semibold text-cacau">{t.map}</strong>
               {location.mapNote}
             </p>
           </div>

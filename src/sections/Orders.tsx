@@ -1,5 +1,4 @@
 import { Cake, Coffee, PartyPopper } from "lucide-react";
-import { contact, orders } from "../data/site";
 import { Button } from "../components/Button";
 import { Container } from "../components/Container";
 import { SectionTitle } from "../components/SectionTitle";
@@ -7,6 +6,7 @@ import { WhatsappIcon } from "../components/BrandIcons";
 import { ResponsiveImage } from "../components/ResponsiveImage";
 import { whatsappLink } from "../lib/format";
 import { IMAGE_SIZES } from "../lib/images";
+import { useSite } from "../i18n/lang";
 
 const icons = { coffee: Coffee, cake: Cake, party: PartyPopper };
 
@@ -15,6 +15,7 @@ const icons = { coffee: Coffee, cake: Cake, party: PartyPopper };
  * Contraste: creme no cacau 13,5:1 · areia no cacau 8,6:1 · branco no terracota 5,8:1 · cacau no creme 13,5:1.
  */
 export function Orders() {
+  const { contact, orders } = useSite().site;
   return (
     <section id="encomendas" aria-labelledby="encomendas-title" className="on-dark bg-cacau py-16 text-creme sm:py-24">
       <Container>

@@ -48,7 +48,7 @@ export const nav = [
 /* ------------------------------------------------------------------ */
 export type SiteImage = { name: string; alt: string; width: number; height: number };
 
-const img = (name: string, alt: string, width = 1600, height = 1068): SiteImage => ({
+export const img = (name: string, alt: string, width = 1600, height = 1068): SiteImage => ({
   name,
   alt,
   width,
@@ -74,6 +74,8 @@ export const hero = {
 /* Produtos                                                            */
 /* ------------------------------------------------------------------ */
 export type Product = { name: string; description: string; image: SiteImage };
+/** Item com ícone (o ícone é o mesmo nos dois idiomas). */
+export type Feature<I extends string> = { icon: I; title: string; text: string };
 
 export const productsSection = {
   eyebrow: "No balcão",
@@ -155,7 +157,7 @@ export const story = {
       title: "Café especial",
       text: "Grãos de torra média, moídos na hora e preparados para combinar com o pão.",
     },
-  ] as const,
+  ] as Feature<"sprout" | "wheat" | "coffee">[],
 };
 
 /* ------------------------------------------------------------------ */
@@ -181,7 +183,7 @@ export const orders = {
       title: "Eventos",
       text: "Pães, salgados e mini croissants para reuniões, confraternizações e recepções.",
     },
-  ] as const,
+  ] as Feature<"coffee" | "cake" | "party">[],
   cta: {
     title: "Tem uma data chegando?",
     text: "Peça com antecedência para a gente separar tudo para o seu dia.",
@@ -229,3 +231,10 @@ export const socials = [
   { name: "Instagram", icon: "instagram", url: "" },
   { name: "WhatsApp", icon: "whatsapp", url: "" },
 ] as const;
+
+/* ------------------------------------------------------------------ */
+/* Conjunto completo, usado pela troca de idioma (src/i18n).           */
+/* A versão em inglês fica em site.en.ts, com este mesmo formato.      */
+/* ------------------------------------------------------------------ */
+export const sitePt = { contact, brand, nav, hero, productsSection, products, story, orders, location, openingHours, socials };
+export type SiteData = typeof sitePt;

@@ -1,9 +1,10 @@
-import { products, productsSection } from "../data/site";
 import { Container } from "../components/Container";
 import { ProductCard } from "../components/ProductCard";
 import { SectionTitle } from "../components/SectionTitle";
+import { useSite } from "../i18n/lang";
 
 export function Products() {
+  const { products, productsSection } = useSite().site;
   return (
     <section id="produtos" aria-labelledby="produtos-title" className="py-16 sm:py-24">
       <Container>

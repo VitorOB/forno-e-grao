@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import { useSite } from "../i18n/lang";
 
 type Variant = "primary" | "secondary" | "light";
 
@@ -22,12 +23,13 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {
 };
 
 export function Button({ href, variant = "primary", icon, external, className = "", children, ...rest }: Props) {
+  const { t } = useSite();
   const externalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
     <a href={href} className={`${base} ${variants[variant]} ${className}`} {...externalProps} {...rest}>
       {icon}
       <span>{children}</span>
-      {external && <span className="sr-only"> (abre em nova aba)</span>}
+      {external && <span className="sr-only"> {t.newTab}</span>}
     </a>
   );
 }

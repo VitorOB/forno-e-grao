@@ -1,13 +1,14 @@
 import { ArrowRight } from "lucide-react";
-import { contact, hero } from "../data/site";
 import { Button } from "../components/Button";
 import { Container } from "../components/Container";
 import { WhatsappIcon } from "../components/BrandIcons";
 import { ResponsiveImage } from "../components/ResponsiveImage";
 import { whatsappLink } from "../lib/format";
 import { IMAGE_SIZES } from "../lib/images";
+import { useSite } from "../i18n/lang";
 
 export function Hero() {
+  const { contact, hero } = useSite().site;
   return (
     <section id="inicio" aria-labelledby="hero-title" className="overflow-hidden pt-8 pb-16 sm:pt-12 lg:pt-16 lg:pb-24">
       <Container className="grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
